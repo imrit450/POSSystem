@@ -33,6 +33,7 @@ public class product extends javax.swing.JFrame {
         table_update();
         loadCategory();
         loadBrand();
+        loadSupplier();
     }
     
     Connection conn;
@@ -63,10 +64,6 @@ public class product extends javax.swing.JFrame {
      {
          return name;
      }
-     public Integer toInt()
-     {
-         return id;
-     }
     }
     
     public class BrandItem{
@@ -74,6 +71,23 @@ public class product extends javax.swing.JFrame {
      String name;
      
      public BrandItem(int id, String name){
+        this.id = id;
+        this.name = name;   
+     }
+     
+     public String toString()
+     {
+         return name;
+     }
+     
+
+    }
+    
+        public class SupplierItem{
+     int id;
+     String name;
+     
+     public SupplierItem(int id, String name){
         this.id = id;
         this.name = name;   
      }
@@ -138,6 +152,8 @@ public class product extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         productBarcode = new javax.swing.JTextField();
         barcodeGenerator = new javax.swing.JButton();
+        productSup = new javax.swing.JComboBox();
+        jLabel23 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(788, 858));
@@ -245,11 +261,11 @@ public class product extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id", "Product", "Description", "Category", "Brand", "Wholesale Price", "Retail Price", "Quantity", "Barcode", "Status"
+                "Id", "Product", "Description", "Category", "Brand", "Supplier", "Wholesale Price", "Retail Price", "Quantity", "Barcode", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -301,7 +317,7 @@ public class product extends javax.swing.JFrame {
         jLabel10.setText("Status");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.ipady = 20;
         gridBagConstraints.weightx = 1.0;
@@ -316,7 +332,7 @@ public class product extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.ipady = 20;
         gridBagConstraints.weightx = 1.0;
@@ -331,7 +347,7 @@ public class product extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.ipady = 20;
         gridBagConstraints.weightx = 1.0;
@@ -347,7 +363,7 @@ public class product extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.ipady = 20;
         gridBagConstraints.weightx = 1.0;
@@ -362,7 +378,7 @@ public class product extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -396,6 +412,11 @@ public class product extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         jPanel4.add(jLabel11, gridBagConstraints);
 
+        productCat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                productCatActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -411,6 +432,11 @@ public class product extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         jPanel4.add(jLabel12, gridBagConstraints);
 
+        productBrand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                productBrandActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -418,15 +444,16 @@ public class product extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         jPanel4.add(productBrand, gridBagConstraints);
 
-        jLabel13.setText("Cost Price");
+        jLabel13.setText("Wholesale Price");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.weightx = 1.0;
         jPanel4.add(jLabel13, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         jPanel4.add(productCost, gridBagConstraints);
@@ -434,12 +461,12 @@ public class product extends javax.swing.JFrame {
         jLabel14.setText("Retail Price");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.weightx = 1.0;
         jPanel4.add(jLabel14, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -449,7 +476,7 @@ public class product extends javax.swing.JFrame {
         jLabel15.setText("Quantity");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.weightx = 1.0;
         jPanel4.add(jLabel15, gridBagConstraints);
 
@@ -460,7 +487,7 @@ public class product extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -470,12 +497,12 @@ public class product extends javax.swing.JFrame {
         jLabel16.setText("Barcode");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.weightx = 1.0;
         jPanel4.add(jLabel16, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         jPanel4.add(productBarcode, gridBagConstraints);
@@ -488,9 +515,26 @@ public class product extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
         jPanel4.add(barcodeGenerator, gridBagConstraints);
+
+        productSup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                productSupActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(productSup, gridBagConstraints);
+
+        jLabel23.setText("Supplier");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        jPanel4.add(jLabel23, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -546,7 +590,7 @@ public class product extends javax.swing.JFrame {
     private void loadBrand()
     {
         try {
-            int c;
+            int b;
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 conn =  DriverManager.getConnection("jdbc:mysql://healthpotion-reborn.ddns.net:3306/pos_system?zeroDateTimeBehavior=CONVERT_TO_NULL","admin","Expressmarket003");
@@ -568,6 +612,31 @@ public class product extends javax.swing.JFrame {
         }
     }
     
+        private void loadSupplier()
+    {
+        try {
+            int b;
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                conn =  DriverManager.getConnection("jdbc:mysql://healthpotion-reborn.ddns.net:3306/pos_system?zeroDateTimeBehavior=CONVERT_TO_NULL","admin","Expressmarket003");
+                pst = conn.prepareStatement("select * from supplier");
+                ResultSet rs = pst.executeQuery();
+                
+                productSup.removeAllItems();
+                
+                while(rs.next()){
+                    productSup.addItem(new SupplierItem(rs.getInt(1),rs.getString(2)));
+                    
+                }
+                        
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+        } catch (SQLException ex) {
+            Logger.getLogger(product.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     
     private void table_update(){
         try {
@@ -575,7 +644,7 @@ public class product extends javax.swing.JFrame {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 conn =  DriverManager.getConnection("jdbc:mysql://healthpotion-reborn.ddns.net:3306/pos_system?zeroDateTimeBehavior=CONVERT_TO_NULL","admin","Expressmarket003");
-                pst = conn.prepareStatement("select p.prod_id, p.product,p.description,p.cost_price,p.retail_price,c.category, b.brand, p.qty, p.barcode, p.status from products p, category c, brand b where p.cat_id = c.id and p.brand_id = b.id ");
+                pst = conn.prepareStatement("select p.prod_id, p.product,p.description,p.cost_price,p.retail_price,c.category, b.brand, s.supplier, p.qty, p.barcode, p.status from products p, category c, brand b, supplier s where p.cat_id = c.id and p.brand_id = b.id and p.sup_id = s.id ");
                 ResultSet rs = pst.executeQuery();
                 
                 ResultSetMetaData rsd = rs.getMetaData();
@@ -592,6 +661,7 @@ public class product extends javax.swing.JFrame {
                         v2.add(rs.getString("description"));
                         v2.add(rs.getString("category"));
                         v2.add(rs.getString("brand"));
+                        v2.add(rs.getString("supplier"));
                         v2.add(rs.getString("cost_price"));
                         v2.add(rs.getString("retail_price"));
                         v2.add(rs.getString("qty"));
@@ -619,13 +689,14 @@ public class product extends javax.swing.JFrame {
 
         productText.setText(d1.getValueAt(selectedIndex, 1).toString());
         prodDesc.setText(d1.getValueAt(selectedIndex, 2).toString());
-        productCat.setSelectedItem(d1.getValueAt(selectedIndex, 3).toString());
-        productBrand.setSelectedItem(d1.getValueAt(selectedIndex, 4).toString());
-        productCost.setText(d1.getValueAt(selectedIndex, 5).toString());
-        productPrice.setText(d1.getValueAt(selectedIndex, 6).toString());
-        productQty.setText(d1.getValueAt(selectedIndex, 7).toString());
-        productBarcode.setText(d1.getValueAt(selectedIndex, 8).toString());
-        productStatus.setSelectedItem(d1.getValueAt(selectedIndex, 9).toString());
+        productCat.setSelectedItem(d1.getValueAt(selectedIndex, 3));
+        productBrand.setSelectedItem(d1.getValueAt(selectedIndex, 4));
+        productSup.setSelectedItem(d1.getValueAt(selectedIndex, 5));
+        productCost.setText(d1.getValueAt(selectedIndex, 6).toString());
+        productPrice.setText(d1.getValueAt(selectedIndex, 7).toString());
+        productQty.setText(d1.getValueAt(selectedIndex, 8).toString());
+        productBarcode.setText(d1.getValueAt(selectedIndex, 9).toString());
+        productStatus.setSelectedItem(d1.getValueAt(selectedIndex, 10).toString());
     }//GEN-LAST:event_productTableMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -634,6 +705,7 @@ public class product extends javax.swing.JFrame {
         String desc = prodDesc.getText();
         CategoryItem cat_item = (CategoryItem)productCat.getSelectedItem();
         BrandItem brand_item = (BrandItem)productBrand.getSelectedItem();
+        SupplierItem sup_item = (SupplierItem)productSup.getSelectedItem();
         String cost_price = productCost.getText();
         String retail_price = productPrice.getText();
         int qty = Integer.parseInt(productQty.getText());
@@ -644,7 +716,7 @@ public class product extends javax.swing.JFrame {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn =  DriverManager.getConnection("jdbc:mysql://healthpotion-reborn.ddns.net:3306/pos_system?zeroDateTimeBehavior=CONVERT_TO_NULL","admin","Expressmarket003");
-            pst = conn.prepareStatement("insert into products (product,description,cost_price,retail_price,cat_id, brand_id, qty, barcode, status) values(?,?,?,?,?,?,?,?,?)");
+            pst = conn.prepareStatement("insert into products (product,description,cost_price,retail_price,cat_id, brand_id, sup_id, qty, barcode, status) values(?,?,?,?,?,?,?,?,?,?)");
 
             pst.setString(1, product);
             pst.setString(2, desc);
@@ -652,9 +724,10 @@ public class product extends javax.swing.JFrame {
             pst.setString(4, retail_price); 
             pst.setInt(5, cat_item.id);
             pst.setInt(6, brand_item.id);
-            pst.setInt(7, qty);
-            pst.setInt(8, barcode);
-            pst.setString(9, status);
+            pst.setInt(7, sup_item.id);
+            pst.setInt(8, qty);
+            pst.setInt(9, barcode);
+            pst.setString(10, status);
             pst.executeUpdate();
             
             
@@ -666,6 +739,7 @@ public class product extends javax.swing.JFrame {
             productPrice.setText("");
             productCat.setSelectedIndex(-1);
             productBrand.setSelectedIndex(-1);
+            productSup.setSelectedIndex(-1);
             productQty.setText("");
             productBarcode.setText("");
             productStatus.setSelectedIndex(-1);
@@ -691,6 +765,7 @@ public class product extends javax.swing.JFrame {
         
         CategoryItem cat_item = (CategoryItem)productCat.getSelectedItem();
         BrandItem brand_item = (BrandItem)productBrand.getSelectedItem();
+        SupplierItem sup_item = (SupplierItem)productSup.getSelectedItem();
         
         String cost_price = productCost.getText();
         String retail_price = productPrice.getText();
@@ -702,7 +777,7 @@ public class product extends javax.swing.JFrame {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn =  DriverManager.getConnection("jdbc:mysql://healthpotion-reborn.ddns.net:3306/pos_system?zeroDateTimeBehavior=CONVERT_TO_NULL","admin","Expressmarket003");
-            pst = conn.prepareStatement("update products set product = ?, description = ?, cost_price = ?, retail_price = ?, cat_id = ?,  brand_id = ?,  qty = ?,  barcode = ?,  status = ?  where prod_id = ?");
+            pst = conn.prepareStatement("update products set product = ?, description = ?, cost_price = ?, retail_price = ?, cat_id = ?,  brand_id = ?, sup_id = ?,  qty = ?,  barcode = ?,  status = ?  where prod_id = ?");
 
             pst.setString(1, product);
             pst.setString(2, desc);
@@ -710,10 +785,11 @@ public class product extends javax.swing.JFrame {
             pst.setString(4, retail_price);
             pst.setInt(5, cat_item.id);
             pst.setInt(6, brand_item.id);
-            pst.setInt(7, qty);
-            pst.setInt(8, barcode);
-            pst.setString(9, status);
-            pst.setInt(10, id);
+            pst.setInt(7, sup_item.id);
+            pst.setInt(8, qty);
+            pst.setInt(9, barcode);
+            pst.setString(10, status);
+            pst.setInt(11, id);
             pst.executeUpdate();
             
             JOptionPane.showMessageDialog(null,"Product Updated");
@@ -723,8 +799,11 @@ public class product extends javax.swing.JFrame {
             prodDesc.setText("");
             productCost.setText("");
             productPrice.setText("");
+            
             productCat.setSelectedIndex(-1);
             productBrand.setSelectedIndex(-1);
+            productSup.setSelectedIndex(-1);
+            
             productQty.setText("");
             productBarcode.setText("");
             productStatus.setSelectedIndex(-1);
@@ -761,8 +840,11 @@ public class product extends javax.swing.JFrame {
                     prodDesc.setText("");
                     productCost.setText("");
                     productPrice.setText("");
+                    
                     productCat.setSelectedIndex(-1);
                     productBrand.setSelectedIndex(-1);
+                    productSup.setSelectedIndex(-1);
+                    
                     productQty.setText("");
                     productBarcode.setText("");
                     productStatus.setSelectedIndex(-1);
@@ -826,6 +908,18 @@ public class product extends javax.swing.JFrame {
         productBarcode.setText(generatedCode.toString());
     }//GEN-LAST:event_barcodeGeneratorMouseClicked
 
+    private void productSupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productSupActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_productSupActionPerformed
+
+    private void productBrandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productBrandActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_productBrandActionPerformed
+
+    private void productCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productCatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_productCatActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -888,6 +982,7 @@ public class product extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -906,6 +1001,7 @@ public class product extends javax.swing.JFrame {
     private javax.swing.JTextField productPrice;
     private javax.swing.JTextField productQty;
     private javax.swing.JComboBox<String> productStatus;
+    private javax.swing.JComboBox productSup;
     private javax.swing.JTable productTable;
     private javax.swing.JTextField productText;
     // End of variables declaration//GEN-END:variables

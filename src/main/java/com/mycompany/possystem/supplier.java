@@ -357,7 +357,7 @@ public class supplier extends javax.swing.JFrame {
                     Vector v2 = new Vector();                   
                     for (int i=1 ; i<=c; i++){
                         v2.add(rs.getString("id"));
-                        v2.add(rs.getString("name"));
+                        v2.add(rs.getString("supplier"));
                         v2.add(rs.getString("address"));
                         v2.add(rs.getString("phone_num"));
                         v2.add(rs.getString("status"));
@@ -389,7 +389,7 @@ public class supplier extends javax.swing.JFrame {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn =  DriverManager.getConnection("jdbc:mysql://healthpotion-reborn.ddns.net:3306/pos_system?zeroDateTimeBehavior=CONVERT_TO_NULL","admin","Expressmarket003");
-            pst = conn.prepareStatement("insert into supplier (name,address,phone_num,status) values(?,?,?,?)");
+            pst = conn.prepareStatement("insert into supplier (supplier,address,phone_num,status) values(?,?,?,?)");
             
             pst.setString(1, name);
             pst.setString(2, address);
@@ -426,7 +426,7 @@ public class supplier extends javax.swing.JFrame {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn =  DriverManager.getConnection("jdbc:mysql://healthpotion-reborn.ddns.net:3306/pos_system?zeroDateTimeBehavior=CONVERT_TO_NULL","admin","Expressmarket003");
-            pst = conn.prepareStatement("update supplier set name = ?, address=?, phone_num=?, status = ? where id=?");
+            pst = conn.prepareStatement("update supplier set supplier = ?, address=?, phone_num=?, status = ? where id=?");
             
             pst.setString(1, supplier);
             pst.setString(2, address);
